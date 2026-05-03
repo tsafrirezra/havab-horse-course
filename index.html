@@ -403,20 +403,19 @@
         </div>
     </div>
 
-    <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
-    <form id="hiddenForm" target="hidden_iframe" method="POST"
-          action="https://script.google.com/macros/s/AKfycbyN7S593LbzhORii4PcQi3Xhoq0WJbddeuHUuCRpjtO3vyxt8zOA61SHQNKwI76LHbhGw/exec"
-          style="display:none;">
-        <input type="hidden" name="name" id="h_name">
-        <input type="hidden" name="phone" id="h_phone">
-        <input type="hidden" name="age" id="h_age">
-        <input type="hidden" name="time" id="h_time">
-    </form>
-
     <script>
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyN7S593LbzhORii4PcQi3Xhoq0WJbddeuHUuCRpjtO3vyxt8zOA61SHQNKwI76LHbhGw/exec';
         const form = document.getElementById('courseForm');
         const registrationForm = document.getElementById('registration-form');
         const successMessage = document.getElementById('successMessage');
+
+        function sendToSheet(data) {
+            var params = Object.keys(data).map(function(k) {
+                return encodeURIComponent(k) + '=' + encodeURIComponent(data[k]);
+            }).join('&');
+            var img = new Image();
+            img.src = SCRIPT_URL + '?' + params;
+        }
 
         form.addEventListener('submit', function(e) {
             e.preventDefault();
@@ -458,17 +457,18 @@
                 submitBtn.textContent = 'שולח...';
                 submitBtn.disabled = true;
 
-                document.getElementById('h_name').value = name.value.trim();
-                document.getElementById('h_phone').value = phone.value.trim();
-                document.getElementById('h_age').value = age.value;
-                document.getElementById('h_time').value = time.value;
-                document.getElementById('hiddenForm').submit();
+                sendToSheet({
+                    name: name.value.trim(),
+                    phone: phone.value.trim(),
+                    age: age.value,
+                    time: time.value
+                });
 
                 setTimeout(function() {
                     document.getElementById('confirmName').textContent = name.value.trim();
                     registrationForm.style.display = 'none';
                     successMessage.style.display = 'block';
-                }, 1000);
+                }, 1500);
             }
         });
     </script>
