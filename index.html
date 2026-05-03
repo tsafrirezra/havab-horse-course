@@ -403,14 +403,22 @@
         </div>
     </div>
 
+    <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
+    <form id="hiddenForm" target="hidden_iframe" method="POST"
+          action="https://script.google.com/macros/s/AKfycbzYJ4nBoyNK1wxGZ6dF7B_KTSi6sGlAWpmsDaK0kf4y2pQ_P29eDZTlNDP8Blu2oRXF5Q/exec"
+          style="display:none;">
+        <input type="hidden" name="name" id="h_name">
+        <input type="hidden" name="phone" id="h_phone">
+        <input type="hidden" name="age" id="h_age">
+        <input type="hidden" name="time" id="h_time">
+    </form>
+
     <script>
         const form = document.getElementById('courseForm');
         const registrationForm = document.getElementById('registration-form');
         const successMessage = document.getElementById('successMessage');
 
-        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzYJ4nBoyNK1wxGZ6dF7B_KTSi6sGlAWpmsDaK0kf4y2pQ_P29eDZTlNDP8Blu2oRXF5Q/exec';
-
-        form.addEventListener('submit', async function(e) {
+        form.addEventListener('submit', function(e) {
             e.preventDefault();
             let valid = true;
 
@@ -450,25 +458,17 @@
                 submitBtn.textContent = 'שולח...';
                 submitBtn.disabled = true;
 
-                try {
-                    await fetch(GOOGLE_SCRIPT_URL, {
-                        method: 'POST',
-                        mode: 'no-cors',
-                        headers: { 'Content-Type': 'text/plain' },
-                        body: JSON.stringify({
-                            name: name.value.trim(),
-                            phone: phone.value.trim(),
-                            age: age.value,
-                            time: time.value
-                        })
-                    });
-                } catch (err) {
-                    // Still show success — data might have gone through
-                }
+                document.getElementById('h_name').value = name.value.trim();
+                document.getElementById('h_phone').value = phone.value.trim();
+                document.getElementById('h_age').value = age.value;
+                document.getElementById('h_time').value = time.value;
+                document.getElementById('hiddenForm').submit();
 
-                document.getElementById('confirmName').textContent = name.value.trim();
-                registrationForm.style.display = 'none';
-                successMessage.style.display = 'block';
+                setTimeout(function() {
+                    document.getElementById('confirmName').textContent = name.value.trim();
+                    registrationForm.style.display = 'none';
+                    successMessage.style.display = 'block';
+                }, 1000);
             }
         });
     </script>
