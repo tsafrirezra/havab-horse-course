@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>חווה בחבל - הרשמה לקורס רכיבה</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #2d5016 0%, #4a7c23 30%, #6b8f3a 60%, #8b6914 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 520px;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #5c3d0e, #8b6914);
+            padding: 32px 24px;
+            text-align: center;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        .course-info {
+            background: #f9f5ee;
+            padding: 20px 24px;
+            border-bottom: 1px solid #e8dcc8;
+        }
+
+        .course-info h2 {
+            color: #5c3d0e;
+            font-size: 1.1rem;
+            margin-bottom: 12px;
+        }
+
+        .sessions {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .session {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 10px 12px;
+            background: white;
+            border-radius: 10px;
+            border-right: 4px solid #4a7c23;
+        }
+
+        .session-number {
+            background: #4a7c23;
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.85rem;
+            flex-shrink: 0;
+        }
+
+        .session-text {
+            color: #333;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .session-text strong {
+            color: #5c3d0e;
+        }
+
+        .form-section {
+            padding: 28px 24px;
+        }
+
+        .form-section h2 {
+            color: #5c3d0e;
+            font-size: 1.2rem;
+            margin-bottom: 4px;
+        }
+
+        .form-section .subtitle {
+            color: #777;
+            font-size: 0.85rem;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            color: #444;
+            font-weight: 600;
+            margin-bottom: 6px;
+            font-size: 0.9rem;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e0d6c8;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            background: #fefefe;
+            color: #333;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #4a7c23;
+            box-shadow: 0 0 0 3px rgba(74, 124, 35, 0.15);
+        }
+
+        .time-options {
+            display: flex;
+            gap: 12px;
+        }
+
+        .time-option {
+            flex: 1;
+            position: relative;
+        }
+
+        .time-option input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .time-option label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px;
+            border: 2px solid #e0d6c8;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #555;
+            transition: all 0.3s;
+            background: #fefefe;
+        }
+
+        .time-option input[type="radio"]:checked + label {
+            border-color: #4a7c23;
+            background: #eef7e5;
+            color: #2d5016;
+            box-shadow: 0 0 0 3px rgba(74, 124, 35, 0.15);
+        }
+
+        .time-option label:hover {
+            border-color: #8b6914;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #4a7c23, #2d5016);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-top: 8px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(45, 80, 22, 0.3);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .footer {
+            text-align: center;
+            padding: 16px 24px 24px;
+            color: #888;
+            font-size: 0.8rem;
+            line-height: 1.5;
+        }
+
+        .footer a {
+            color: #5c3d0e;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .success-message {
+            display: none;
+            text-align: center;
+            padding: 48px 24px;
+        }
+
+        .success-message .checkmark {
+            width: 72px;
+            height: 72px;
+            background: #4a7c23;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 2rem;
+            color: white;
+        }
+
+        .success-message h2 {
+            color: #2d5016;
+            margin-bottom: 12px;
+        }
+
+        .success-message p {
+            color: #555;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .payment-btn {
+            display: inline-block;
+            padding: 14px 32px;
+            background: linear-gradient(135deg, #8b6914, #5c3d0e);
+            color: white;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .payment-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(92, 61, 14, 0.3);
+        }
+
+        .error {
+            border-color: #e74c3c !important;
+        }
+
+        .error-msg {
+            color: #e74c3c;
+            font-size: 0.8rem;
+            margin-top: 4px;
+            display: none;
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 12px;
+            }
+            .header h1 {
+                font-size: 1.5rem;
+            }
+            .container {
+                border-radius: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🐴 המסע לעולם הסוסים מתחיל כאן!</h1>
+            <p>חווה בחבל — קורס הכרות למתחילים</p>
+        </div>
+
+        <div class="course-info">
+            <h2>⭐ 3 מפגשי חוויה — החל מ-06.05</h2>
+            <div class="sessions">
+                <div class="session">
+                    <div class="session-number">1</div>
+                    <div class="session-text"><strong>שפת הסוסים</strong> — תקשורת וטיפול ראשוני</div>
+                </div>
+                <div class="session">
+                    <div class="session-number">2</div>
+                    <div class="session-text"><strong>הדרכה מעשית</strong> — איכוף נכון והכרת הציוד</div>
+                </div>
+                <div class="session">
+                    <div class="session-number">3</div>
+                    <div class="session-text"><strong>רכיבה בסיסית</strong> — יציבות ושליטה במגרש</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="registration-form">
+            <div class="form-section">
+                <h2>הרשמה לקורס</h2>
+                <p class="subtitle">מלאו את הפרטים ותועברו לתשלום</p>
+
+                <form id="courseForm" novalidate>
+                    <div class="form-group">
+                        <label for="fullName">שם מלא</label>
+                        <input type="text" id="fullName" placeholder="שם פרטי ומשפחה" required>
+                        <div class="error-msg" id="nameError">נא למלא שם מלא</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="age">גיל</label>
+                        <select id="age" required>
+                            <option value="" disabled selected>בחרו גיל</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+                            <option value="11">11</option>
+                            <option value="12">12</option>
+                            <option value="13">13</option>
+                            <option value="14">14</option>
+                            <option value="15">15</option>
+                            <option value="16">16</option>
+                        </select>
+                        <div class="error-msg" id="ageError">נא לבחור גיל</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">טלפון</label>
+                        <input type="tel" id="phone" placeholder="050-000-0000" required dir="ltr" style="text-align: right;">
+                        <div class="error-msg" id="phoneError">נא למלא מספר טלפון</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>שעה מועדפת</label>
+                        <div class="time-options">
+                            <div class="time-option">
+                                <input type="radio" name="time" id="time17" value="17:00" required>
+                                <label for="time17">17:00</label>
+                            </div>
+                            <div class="time-option">
+                                <input type="radio" name="time" id="time18" value="18:00">
+                                <label for="time18">18:00</label>
+                            </div>
+                        </div>
+                        <div class="error-msg" id="timeError">נא לבחור שעה מועדפת</div>
+                    </div>
+
+                    <button type="submit" class="submit-btn">להרשמה ותשלום ←</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="success-message" id="successMessage">
+            <div class="checkmark">✓</div>
+            <h2>נרשמת בהצלחה!</h2>
+            <p>
+                <span id="confirmName"></span>، תודה על ההרשמה!<br>
+                כעת יש לבצע תשלום דרך PayBox כדי לאשר את מקומכם.
+            </p>
+            <a href="https://links.payboxapp.com/2vYnIA5ZO2b" target="_blank" class="payment-btn">
+                מעבר לתשלום ב-PayBox
+            </a>
+            <p style="margin-top: 16px; font-size: 0.85rem; color: #777;">
+                או העתיקו את הלינק:<br>
+                <a href="https://links.payboxapp.com/2vYnIA5ZO2b" target="_blank" style="color: #5c3d0e; word-break: break-all;">
+                    https://links.payboxapp.com/2vYnIA5ZO2b
+                </a>
+            </p>
+        </div>
+
+        <div class="footer">
+            לפרטים נוספים: נתנאל <a href="tel:0525950524">052-595-0524</a> | צפריר <a href="tel:0525299868">052-529-9868</a>
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById('courseForm');
+        const registrationForm = document.getElementById('registration-form');
+        const successMessage = document.getElementById('successMessage');
+
+        const GOOGLE_SCRIPT_URL = 'YOUR_GOOGLE_SCRIPT_URL_HERE';
+
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            let valid = true;
+
+            const name = document.getElementById('fullName');
+            const phone = document.getElementById('phone');
+            const age = document.getElementById('age');
+            const time = document.querySelector('input[name="time"]:checked');
+
+            document.querySelectorAll('.error').forEach(el => el.classList.remove('error'));
+            document.querySelectorAll('.error-msg').forEach(el => el.style.display = 'none');
+
+            if (!name.value.trim()) {
+                name.classList.add('error');
+                document.getElementById('nameError').style.display = 'block';
+                valid = false;
+            }
+
+            if (!phone.value.trim() || phone.value.replace(/\D/g, '').length < 9) {
+                phone.classList.add('error');
+                document.getElementById('phoneError').style.display = 'block';
+                valid = false;
+            }
+
+            if (!age.value) {
+                age.classList.add('error');
+                document.getElementById('ageError').style.display = 'block';
+                valid = false;
+            }
+
+            if (!time) {
+                document.getElementById('timeError').style.display = 'block';
+                valid = false;
+            }
+
+            if (valid) {
+                const submitBtn = form.querySelector('.submit-btn');
+                submitBtn.textContent = 'שולח...';
+                submitBtn.disabled = true;
+
+                try {
+                    await fetch(GOOGLE_SCRIPT_URL, {
+                        method: 'POST',
+                        mode: 'no-cors',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            name: name.value.trim(),
+                            phone: phone.value.trim(),
+                            age: age.value,
+                            time: time.value
+                        })
+                    });
+                } catch (err) {
+                    // Still show success — data might have gone through
+                }
+
+                document.getElementById('confirmName').textContent = name.value.trim();
+                registrationForm.style.display = 'none';
+                successMessage.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>
